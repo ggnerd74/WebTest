@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="FoodDistribute_DWModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="MVC_User">
+          <Key>
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="UserName" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UseDashBoardView" Type="bit" Nullable="false" />
+        </EntityType>
+        <Function Name="MVC_GetUser_BuyerID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="gateway">
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="MVC_GetUser_RepID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="gateway">
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="MVC_GetUserID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="gateway">
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="PrePack_Forecast_GridSet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="interop">
+          <Parameter Name="forecastdate" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="PrePack_ForecastUpsert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="interop">
+          <Parameter Name="rid" Type="int" Mode="In" />
+          <Parameter Name="forecastdate" Type="datetime" Mode="In" />
+          <Parameter Name="productcode" Type="varchar" Mode="In" />
+          <Parameter Name="um" Type="varchar" Mode="In" />
+          <Parameter Name="forecastvalue" Type="decimal" Mode="In" />
+          <Parameter Name="actualvalue" Type="decimal" Mode="In" />
+          <Parameter Name="userid" Type="int" Mode="In" />
+          <Parameter Name="startingqoh" Type="decimal" Mode="In" />
+        </Function>
+        <EntityContainer Name="FoodDistribute_DWModelStoreContainer">
+          <EntitySet Name="MVC_User" EntityType="Self.MVC_User" Schema="gateway" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FoodDistribute_DWModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="FoodDistribute_DWEntities" annotation:LazyLoadingEnabled="true" >
+          <FunctionImport Name="PrePack_Forecast_GridSet" ReturnType="Collection(FoodDistribute_DWModel.PrePack_Forecast_GridSet_Result)">
+          <Parameter Name="forecastdate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="PrePack_ForecastUpsert" ReturnType="Collection(FoodDistribute_DWModel.PrePack_ForecastUpsert_Result)">
+            <Parameter Name="rid" Mode="In" Type="Int32" />
+            <Parameter Name="forecastdate" Mode="In" Type="DateTime" />
+            <Parameter Name="productcode" Mode="In" Type="String" />
+            <Parameter Name="um" Mode="In" Type="String" />
+            <Parameter Name="forecastvalue" Mode="In" Type="Decimal" />
+            <Parameter Name="actualvalue" Mode="In" Type="Decimal" />
+            <Parameter Name="userid" Mode="In" Type="Int32" />
+            <Parameter Name="startingqoh" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <EntitySet Name="MVC_User" EntityType="FoodDistribute_DWModel.MVC_User" />
+          <FunctionImport Name="MVC_GetUser_BuyerID" ReturnType="Collection(Int32)">
+            <Parameter Name="UserName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MVC_GetUser_RepID" ReturnType="Collection(Int32)">
+            <Parameter Name="UserName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MVC_GetUserID" ReturnType="Collection(Int32)">
+            <Parameter Name="UserName" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="PrePack_Forecast_GridSet_Result">
+          <Property Type="Int32" Name="rid" Nullable="false" />
+          <Property Type="DateTime" Name="forecastdate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="productcode" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="um" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="ProductDescription" Nullable="true" MaxLength="60" />
+          <Property Type="Decimal" Name="forecastvalue" Nullable="false" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="actualvalue" Nullable="false" Precision="18" Scale="4" />
+          <Property Type="DateTime" Name="lastmodified" Nullable="true" Precision="23" />
+          <Property Type="String" Name="username" Nullable="true" MaxLength="128" />
+          <Property Type="Decimal" Name="startingqoh" Nullable="false" Precision="18" Scale="4" />
+        </ComplexType>
+        <ComplexType Name="PrePack_ForecastUpsert_Result">
+          <Property Type="Int32" Name="rid" Nullable="false" />
+          <Property Type="DateTime" Name="forecastdate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="productcode" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="um" Nullable="true" MaxLength="10" />
+          <Property Type="Decimal" Name="forecastvalue" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="DateTime" Name="createddate" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="createduserid" Nullable="false" />
+          <Property Type="DateTime" Name="modifieddate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="modifieduserid" Nullable="true" />
+          <Property Type="Decimal" Name="actualvalue" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="startingqoh" Nullable="true" Precision="18" Scale="4" />
+        </ComplexType>
+        <EntityType Name="MVC_User">
+          <Key>
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UseDashBoardView" Type="Boolean" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FoodDistribute_DWModelStoreContainer" CdmEntityContainer="FoodDistribute_DWEntities" >
+          <FunctionImportMapping FunctionImportName="PrePack_Forecast_GridSet" FunctionName="FoodDistribute_DWModel.Store.PrePack_Forecast_GridSet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FoodDistribute_DWModel.PrePack_Forecast_GridSet_Result">
+                <ScalarProperty Name="rid" ColumnName="rid" />
+                <ScalarProperty Name="forecastdate" ColumnName="forecastdate" />
+                <ScalarProperty Name="productcode" ColumnName="productcode" />
+                <ScalarProperty Name="um" ColumnName="um" />
+                <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
+                <ScalarProperty Name="forecastvalue" ColumnName="forecastvalue" />
+                <ScalarProperty Name="actualvalue" ColumnName="actualvalue" />
+                <ScalarProperty Name="lastmodified" ColumnName="lastmodified" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="startingqoh" ColumnName="startingqoh" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="PrePack_ForecastUpsert" FunctionName="FoodDistribute_DWModel.Store.PrePack_ForecastUpsert">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FoodDistribute_DWModel.PrePack_ForecastUpsert_Result">
+                <ScalarProperty Name="rid" ColumnName="rid" />
+                <ScalarProperty Name="forecastdate" ColumnName="forecastdate" />
+                <ScalarProperty Name="productcode" ColumnName="productcode" />
+                <ScalarProperty Name="um" ColumnName="um" />
+                <ScalarProperty Name="forecastvalue" ColumnName="forecastvalue" />
+                <ScalarProperty Name="createddate" ColumnName="createddate" />
+                <ScalarProperty Name="createduserid" ColumnName="createduserid" />
+                <ScalarProperty Name="modifieddate" ColumnName="modifieddate" />
+                <ScalarProperty Name="modifieduserid" ColumnName="modifieduserid" />
+                <ScalarProperty Name="actualvalue" ColumnName="actualvalue" />
+                <ScalarProperty Name="startingqoh" ColumnName="startingqoh" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="MVC_User">
+            <EntityTypeMapping TypeName="FoodDistribute_DWModel.MVC_User">
+              <MappingFragment StoreEntitySet="MVC_User">
+                <ScalarProperty Name="UseDashBoardView" ColumnName="UseDashBoardView" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="MVC_GetUser_BuyerID" FunctionName="FoodDistribute_DWModel.Store.MVC_GetUser_BuyerID" />
+          <FunctionImportMapping FunctionImportName="MVC_GetUser_RepID" FunctionName="FoodDistribute_DWModel.Store.MVC_GetUser_RepID" />
+          <FunctionImportMapping FunctionImportName="MVC_GetUserID" FunctionName="FoodDistribute_DWModel.Store.MVC_GetUserID" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
